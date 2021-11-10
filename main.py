@@ -258,19 +258,19 @@ B = (beta+RBx+s*delta)%q
 temp_C=0
 for i in Ind_pri:
     temp_C+=R[i-1]*(beta*Ax_val[i-1]+alpha*Bx_val[i-1]+Cx_val[i-1])
-C = (MODinv(delta,q)*temp_C+Hx_val*Zx_val\
+C = (MODinv(delta,q)*(temp_C+Hx_val*Zx_val)\
 +A*s+B*r+((-r*s*delta)%q))%q
 
 lhs = (A*B)%q
 temp_rhs=0
-for i in Ind_pri:
+for i in Ind_pub:
     temp_rhs+=R[i-1]*VAL[i-1]
 rhs = (alpha*beta+gamma*temp_rhs+C*delta)%q
 
 proofcheckflag = 1
 proofcheckflag = proofcheckflag*Peq(Proof_A,EC_pmult(A,g))\
 *Peq(Proof_B,EC_pmult(B,h))*Peq(Proof_C,EC_pmult(C,g))
-if proofcheckflag==1:
+if proofcheckflag==1 and lhs==rhs:
     print('Proof is complete')
 else:
     print('Proof is incomplete')
